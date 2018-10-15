@@ -42,18 +42,18 @@ script:
       sleep 1
     done
   - docker-compose run faf-db-migrations migrate
-  - docker-compose up -d faf-java-api
-  - docker-compose up -d faf-website
+  - docker-compose up faf-java-api
   - |
     echo -n 'Waiting for faf-java-api '
-    while ! curl -s localhost:8010; do true; done > /dev/null
+    while ! curl -s http://localhost:8010; do true; done &> /dev/null
     do
       echo -n "."
       sleep 1
     done
+  - docker-compose up -d faf-website
   - |
     echo -n 'Waiting for faf-website '
-    while ! curl -s localhost:8020; do true; done > /dev/null
+    while ! curl -s http://localhost:8020; do true; done &> /dev/null
     do
       echo -n "."
       sleep 1
